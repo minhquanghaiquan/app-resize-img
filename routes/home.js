@@ -64,7 +64,7 @@ router.post('/',upload ,  function(req, res) {
         }
         //save file zip in local
         const downloadName = `${Date.now()}.zip`;
-        zip.writeZip(__dirname+"/"+downloadName);
+        zip.writeZip(downloadName);
         //send file zip
         const data = zip.toBuffer();
         res.set('Content-Type','application/octet-stream');
