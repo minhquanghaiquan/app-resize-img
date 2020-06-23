@@ -64,13 +64,14 @@ router.post('/',upload ,  function(req, res) {
         }
         //save file zip in local
         const downloadName = `${Date.now()}.zip`;
-        zip.writeZip(downloadName);
+        zip.writeZip('public/'+downloadName);
         //send file zip
-        const data = zip.toBuffer();
-        res.set('Content-Type','application/octet-stream');
-        res.set('Content-Disposition',`attachment; filename=${downloadName}`);
-        res.set('Content-Length',data.length);
-        res.send(data);
+        // const data = zip.toBuffer();
+        // res.set('Content-Type','application/octet-stream');
+        // res.set('Content-Disposition',`attachment; filename=${downloadName}`);
+        // res.set('Content-Length',data.length);
+        // res.send(data);
+        res.redirect('/public/'+downloadName);
     }).catch( (err) => {
         console.log(err);
     })
