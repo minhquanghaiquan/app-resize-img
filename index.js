@@ -8,7 +8,7 @@ var homeRoute = require('./routes/home');
 // app.use(bodyParser.urlencoded({ extended: false }))
 // app.use(bodyParser.json())
 app.use(zip());
-app.use(express.static(__dirname + '/public'))
+app.use('/public', express.static('public'));
 
 var path = require ('path');
 app.set('view engine','pug');
