@@ -39,6 +39,9 @@ router.get('/', function(req, res) {
 })
 
 router.post('/',upload ,  function(req, res) {
+    if(!req.file) return res.render('index', {
+        err: 'File is empty'
+    });
     console.log(req.file);
     
     Promise.all([

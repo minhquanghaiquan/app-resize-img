@@ -1,5 +1,13 @@
-h1 ResizeApp
-p welcome!!
-form(action="/", method='post',enctype="multipart/form-data")
-    input(type="file", name='imageUpload')
-    input(type='submit', name='upload', value='Upload')
+extends ./header.pug
+block content
+        .wrapp
+            h1 Resize App
+            form(action="/", method='post',enctype="multipart/form-data")
+                .form-group
+                    label 
+                        i Upload your image need to resize
+                    input#input.form-control-file(type="file" ,name='imageUpload')
+                    button.btn.btn-success(type='submit') Upload
+                    br
+                    if err 
+                        .alert.alert-success(role='alert') #{err}
