@@ -16,7 +16,16 @@ var storage = multer.diskStorage({
     }
   })
    
-var upload = multer({ storage: storage }).single('imageUpload');
+const upload = multer({ 
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        if(!file.mimetype.match(/jpe|jpeg|png|gif$i/)) {
+            req.body.err = 'File is not support. (Only support file: jpe, jpeg, png and gif)'
+            cb(null, false)
+        }
+        cb(null, true)
+    }
+}).single('imageUpload');
 
 function resize(data,size) {
     return new Promise ((resolve, reject) =>{
@@ -38,12 +47,26 @@ router.get('/', function(req, res) {
     res.render('index')
 })
 
-router.post('/',upload ,  function(req, res) {
-    if(!req.file) return res.render('index', {
-        err: 'File is empty'
-    });
-    console.log(req.file);
-    
+router.post('/', upload ,  function(req, res) {
+    var err;
+    if(!req.file) {
+        err = 'File is empty. Please check input';
+    }else {
+        if ( req.body.err) {
+            err= req.body.err;
+        } else {
+            if(req.file.size > 1080*1080) {
+                err = 'file is too large, image size need too < 1080x1080';
+            }
+        }
+    }
+   
+    if (err) {
+        return res.render('index', {
+            err: err
+        });
+    }
+  
     Promise.all([
         resize(req.file , 512),
         resize(req.file , 256),
